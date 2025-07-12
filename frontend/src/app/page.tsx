@@ -1,9 +1,9 @@
-import Login from "@/app/login/page"
+import Dashboard from "./dashboard/page";
 
 export default function Home() {
   return (
     <main>
-      <Login />
+      <Dashboard />
     </main>
   );
 }
