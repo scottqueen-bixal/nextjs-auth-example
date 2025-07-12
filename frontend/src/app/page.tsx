@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button"
+import Login from "@/app/login/page"
 
 export default function Home() {
   return (
     <main>
-      <h1>Please Login</h1>
-      <Button>Click me</Button>
+      <Login />
     </main>
   );
 }
