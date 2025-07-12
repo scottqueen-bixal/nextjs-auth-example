@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -51,7 +52,7 @@ export default function Register() {
         Register
       </Button>
       <CardAction>
-        <Button variant="link"><CardDescription>Already have an account? Try logging in.</CardDescription></Button>
+        <Button variant="link" ><CardDescription><Link href="/login">Already have an account? Try logging in.</Link></CardDescription></Button>
       </CardAction>
     </CardFooter>
   </Card>
