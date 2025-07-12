@@ -49,7 +49,7 @@ export default function Register() {
     </CardContent>
     <CardFooter className="flex-col gap-2">
       <Button type="submit" className="w-full">
-        Register
+        <Link href="/login">Register</Link>
       </Button>
       <CardAction>
         <Button variant="link" ><CardDescription><Link href="/login">Already have an account? Try logging in.</Link></CardDescription></Button>
