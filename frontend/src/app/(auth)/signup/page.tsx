@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signup } from "@/app/actions/auth"
+import { signup } from "@/app/actions/signup"
 import { useActionState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
@@ -18,7 +18,7 @@ import { FormInput } from "@/components/ui/form-input"
 import { toast } from "sonner"
 
 
-export default function Register() {
+export default function Signup() {
   const [state, action, pending] = useActionState(signup, undefined)
   const router = useRouter()
 
@@ -95,7 +95,7 @@ export default function Register() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" disabled={pending} className="w-full">
-          Register
+          Sign up
         </Button>
         <CardAction>
           <CardDescription>

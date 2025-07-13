@@ -58,7 +58,7 @@ export default function Login() {
           </Button>
                 <CardAction>
           <CardDescription>
-            <Link href="/register">Register for an account.</Link>
+            <Link href="/signup">Sign up for an account.</Link>
           </CardDescription>
         </CardAction>
         </CardFooter>
