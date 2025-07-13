@@ -1,3 +1,5 @@
+import { Toaster } from "@/components/ui/sonner";
+
 export default function AuthLayout({
   children,
 }: Readonly<{
@@ -6,6 +8,7 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       {children}
+      <Toaster />
     </div>
   );
 }
