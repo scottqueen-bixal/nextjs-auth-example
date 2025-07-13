@@ -33,8 +33,7 @@ export default function Register() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-          <div className="flex flex-col gap-6">
-          <div className="grid gap-2">
+          <div className="flex flex-col gap-6">            <div className="grid gap-2">
               <Label htmlFor="name" required>Name</Label>
               <Input
                 id="name"
@@ -42,6 +41,7 @@ export default function Register() {
                 type="text"
                 placeholder="Name"
                 defaultValue={state?.formData?.name as string || ''}
+                aria-invalid={state?.errors?.name ? "true" : "false"}
                 required
               />
               {
@@ -57,6 +57,7 @@ export default function Register() {
                 type="email"
                 placeholder="me@example.com"
                 defaultValue={state?.formData?.email as string || ''}
+                aria-invalid={state?.errors?.email ? "true" : "false"}
                 required
               />
               {
@@ -68,7 +69,7 @@ export default function Register() {
               <div className="flex items-center">
                 <Label htmlFor="password" required>Password</Label>
               </div>
-              <Input id="password" name="password" type="password" placeholder='Password' defaultValue={state?.formData?.password as string || ''} required />
+              <Input id="password" name="password" type="password" placeholder='Password' defaultValue={state?.formData?.password as string || ''} aria-invalid={state?.errors?.password ? "true" : "false"} required />
                 {state?.errors?.password && (
                   <div>
                     <p>
