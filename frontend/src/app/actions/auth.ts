@@ -23,4 +23,9 @@ console.log(state, formData.get('name'))
 
   // Call the provider or db to create a user...
 
+  // Return success message
+  return {
+    successMessage: "User successfully created, redirecting you to the log in page"
+  }
+
 }
