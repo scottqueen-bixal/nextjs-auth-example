@@ -35,7 +35,7 @@ export default function Register() {
       <CardContent>
           <div className="flex flex-col gap-6">
           <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name" required>Name</Label>
               <Input
                 id="name"
                 name="name"
@@ -50,7 +50,7 @@ export default function Register() {
               }
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" required>Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -66,7 +66,7 @@ export default function Register() {
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" required>Password</Label>
               </div>
               <Input id="password" name="password" type="password" placeholder='Password' defaultValue={state?.formData?.password as string || ''} required />
                 {state?.errors?.password && (
