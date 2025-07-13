@@ -1,4 +1,9 @@
+"use client"
+
 import Link from 'next/link'
+// import { useRouter } from 'next/navigation'
+// import { signup } from "@/app/actions/auth"
+// import { useActionState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -9,8 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { FormInput } from "@/components/ui/form-input"
+// import { toast } from "sonner"
 
 
 export default function Login() {
@@ -29,20 +34,24 @@ export default function Login() {
       <form>
         <div className="flex flex-col gap-6">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
+            <FormInput
               id="email"
+              name="email"
               type="email"
+              label="Email"
               placeholder="m@example.com"
               required
             />
           </div>
           <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-
-            </div>
-            <Input id="password" type="password" required />
+            <FormInput
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Password"
+              required
+            />
           </div>
         </div>
       </form>
