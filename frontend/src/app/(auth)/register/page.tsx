@@ -42,7 +42,7 @@ export default function Register() {
 
   return (
     <form action={action}>
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm min-w-sm">
       <CardHeader>
         <CardTitle>Create a new account</CardTitle>
         <CardDescription>
@@ -50,7 +50,8 @@ export default function Register() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-          <div className="flex flex-col gap-6">            <div className="grid gap-2">
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
               <FormInput
                 id="name"
                 name="name"
