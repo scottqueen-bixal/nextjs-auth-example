@@ -1,8 +1,9 @@
 "use client"
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { signup } from "@/app/actions/auth"
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,15 +15,33 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { FormInput } from "@/components/ui/form-input"
+import { toast } from "sonner"
 
 
 export default function Register() {
   const [state, action, pending] = useActionState(signup, undefined)
+  const router = useRouter()
 
   console.log(state)
 
+  // Handle success message and redirect
+  useEffect(() => {
+    if (state?.successMessage) {
+      toast.success(state.successMessage, {
+        duration: 2500,
+      })
+
+      // Redirect to login page after 2.5 seconds
+      const redirectTimer = setTimeout(() => {
+        router.push('/login')
+      }, 2500)
+
+      return () => clearTimeout(redirectTimer)
+    }
+  }, [state?.successMessage, router])
+
   return (
-  <form action={action}>
+    <form action={action}>
     <Card className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>Create a new account</CardTitle>
