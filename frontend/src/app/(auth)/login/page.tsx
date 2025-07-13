@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 // import { useRouter } from 'next/navigation'
-// import { signup } from "@/app/actions/auth"
-// import { useActionState, useEffect } from 'react'
+import { login } from "@/app/actions/login"
+import { useActionState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -19,8 +19,10 @@ import { FormInput } from "@/components/ui/form-input"
 
 
 export default function Login() {
+  const [state, action, pending] = useActionState(login, undefined)
+
   return (
-    <form action={undefined}>
+    <form action={action}>
       <Card className="w-full max-w-sm min-w-sm">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -36,7 +38,10 @@ export default function Login() {
                   name="email"
                   type="email"
                   label="Email"
-                  placeholder="m@example.com"
+                  placeholder="me@example.com"
+                  defaultValue={state?.formData?.email as string || ''}
+                  aria-invalid={state?.errors?.email ? "true" : "false"}
+                  error={state?.errors?.email}
                   required
                 />
               </div>
@@ -47,15 +52,17 @@ export default function Login() {
                   type="password"
                   label="Password"
                   placeholder="Password"
+                  defaultValue={state?.formData?.password as string || ''}
+                  aria-invalid={state?.errors?.password ? "true" : "false"}
+                  error={state?.errors?.password}
+                  errorListLabel="Password must:"
                   required
                 />
               </div>
             </div>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-          <Link href="/dashboard">Login</Link>
-          </Button>
+          <Button type="submit" className="w-full" disabled={pending} >Login</Button>
                 <CardAction>
           <CardDescription>
             <Link href="/signup">Sign up for an account.</Link>
