@@ -13,9 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ErrorMessage } from "@/components/ui/error-message"
+import { FormInput } from "@/components/ui/form-input"
 
 
 export default function Register() {
@@ -34,55 +32,44 @@ export default function Register() {
       </CardHeader>
       <CardContent>
           <div className="flex flex-col gap-6">            <div className="grid gap-2">
-              <Label htmlFor="name" required>Name</Label>
-              <Input
+              <FormInput
                 id="name"
                 name="name"
                 type="text"
+                label="Name"
                 placeholder="Name"
                 defaultValue={state?.formData?.name as string || ''}
                 aria-invalid={state?.errors?.name ? "true" : "false"}
+                error={state?.errors?.name}
                 required
               />
-              {
-                state?.errors?.name &&
-                  <ErrorMessage>{state.errors.name}</ErrorMessage>
-              }
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email" required>Email</Label>
-              <Input
+              <FormInput
                 id="email"
                 name="email"
                 type="email"
+                label="Email"
                 placeholder="me@example.com"
                 defaultValue={state?.formData?.email as string || ''}
                 aria-invalid={state?.errors?.email ? "true" : "false"}
+                error={state?.errors?.email}
                 required
               />
-              {
-                state?.errors?.email &&
-                  <ErrorMessage>{state.errors.email}</ErrorMessage>
-              }
             </div>
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password" required>Password</Label>
-              </div>
-              <Input id="password" name="password" type="password" placeholder='Password' defaultValue={state?.formData?.password as string || ''} aria-invalid={state?.errors?.password ? "true" : "false"} required />
-                {state?.errors?.password && (
-                  <div>
-                    <p>
-                      <small>Password must:</small>
-                      </p>
-                    <ul>
-                      {state.errors.password.map((error) => (
-                        <li key={error}><ErrorMessage>- {error}</ErrorMessage>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <FormInput
+                id="password"
+                name="password"
+                type="password"
+                label="Password"
+                placeholder="Password"
+                defaultValue={state?.formData?.password as string || ''}
+                aria-invalid={state?.errors?.password ? "true" : "false"}
+                error={state?.errors?.password}
+                errorListLabel="Password must:"
+                required
+              />
             </div>
           </div>
       </CardContent>
