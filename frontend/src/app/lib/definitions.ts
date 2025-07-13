@@ -25,6 +25,7 @@ export type FormState =
         password?: string[]
       }
       message?: string
+      successMessage?: string
       formData?: {
         name?: FormDataEntryValue | null
         email?: FormDataEntryValue | null
