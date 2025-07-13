@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ErrorMessage } from "@/components/ui/error-message"
 
 
 export default function Register() {
@@ -45,8 +46,7 @@ export default function Register() {
               />
               {
                 state?.errors?.name &&
-                  <small className="text-sm leading-none font-medium">{state.errors.name}
-                  </small>
+                  <ErrorMessage>{state.errors.name}</ErrorMessage>
               }
             </div>
             <div className="grid gap-2">
@@ -61,8 +61,7 @@ export default function Register() {
               />
               {
                 state?.errors?.email &&
-                  <small className="text-sm leading-none font-medium">{state.errors.email}
-                  </small>
+                  <ErrorMessage>{state.errors.email}</ErrorMessage>
               }
             </div>
             <div className="grid gap-2">
@@ -73,12 +72,11 @@ export default function Register() {
                 {state?.errors?.password && (
                   <div>
                     <p>
-                      <small className="text-sm leading-none font-medium">Password must:</small>
+                      <small>Password must:</small>
                       </p>
                     <ul>
                       {state.errors.password.map((error) => (
-                        <li key={error}>- <small className="text-sm leading-none font-medium">{error}
-                        </small>
+                        <li key={error}><ErrorMessage>- {error}</ErrorMessage>
                         </li>
                       ))}
                     </ul>
