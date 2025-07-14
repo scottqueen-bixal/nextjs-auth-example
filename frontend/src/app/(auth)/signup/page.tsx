@@ -53,14 +53,27 @@ export default function Signup() {
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <FormInput
-                id="name"
-                name="name"
+                id="first_name"
+                name="first_name"
                 type="text"
-                label="Name"
-                placeholder="Name"
-                defaultValue={state?.formData?.name as string || ''}
-                aria-invalid={state?.errors?.name ? "true" : "false"}
-                error={state?.errors?.name}
+                label="First Name"
+                placeholder="First Name"
+                defaultValue={state?.formData?.first_name as string || ''}
+                aria-invalid={state?.errors?.first_name ? "true" : "false"}
+                error={state?.errors?.first_name}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <FormInput
+                id="last_name"
+                name="last_name"
+                type="text"
+                label="Last Name"
+                placeholder="Last Name"
+                defaultValue={state?.formData?.last_name as string || ''}
+                aria-invalid={state?.errors?.last_name ? "true" : "false"}
+                error={state?.errors?.last_name}
                 required
               />
             </div>
