@@ -29,6 +29,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-API-Key': process.env.API_KEY || '',
       },
       body: JSON.stringify({
         first_name: validatedFields.data.first_name,

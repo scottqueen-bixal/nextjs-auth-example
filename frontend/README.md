@@ -1,8 +1,44 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Features
+
+- User authentication (signup/login)
+- Secure API integration with API key authentication
+- Form validation and error handling
+- Responsive UI components
+
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or higher)
+- Backend API server running on port 8000
+
+### Environment Configuration
+
+Create a `.env` file in the root directory with the following configuration:
+
+```bash
+# API Security Configuration
+API_KEY=your-secure-api-key-here
+```
+
+**Important:** Replace `your-secure-api-key-here` with the actual API key provided by your backend authentication server.
+
+### Installation and Setup
+
+1. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+2. Configure your environment variables in the `.env` file (see above)
+
+3. Run the development server:
 
 ```bash
 npm run dev
@@ -15,6 +51,20 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## API Authentication
+
+This application uses API key authentication to secure communication with the backend user management server. The API key is:
+
+- Stored securely in environment variables
+- Sent as an `X-API-Key` header with all API requests
+- Required for all authentication operations (signup, login)
+
+### Security Notes
+
+- Never commit your `.env` file to version control
+- Use different API keys for development and production environments
+- Ensure your backend server validates the API key for all requests
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
