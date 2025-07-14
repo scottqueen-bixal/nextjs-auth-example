@@ -24,7 +24,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
 
   // Call the provider or db to create a user...
   try {
-    // Use the validated first_name and last_name directly
+    // Send plain password to backend - hashing will be done on the server
     const response = await fetch('http://localhost:8000/users', {
       method: 'POST',
       headers: {
@@ -35,6 +35,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
         first_name: validatedFields.data.first_name,
         last_name: validatedFields.data.last_name,
         email: validatedFields.data.email,
+        password: validatedFields.data.password
       }),
     });
 
