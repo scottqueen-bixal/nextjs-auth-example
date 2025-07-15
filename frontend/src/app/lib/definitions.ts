@@ -1,5 +1,14 @@
 import { z } from 'zod'
 
+export interface User {
+  id: number
+  email: string
+  first_name?: string
+  last_name?: string
+  created_at?: string
+  updated_at?: string
+}
+
 export const SignupFormSchema = z.object({
   first_name: z
     .string()
@@ -53,6 +62,8 @@ export type SignupFormState =
         }
         message?: string
         successMessage?: string
+        token?: string
+        user?: User
         formData?: {
           email?: FormDataEntryValue | null
           password?: FormDataEntryValue | null
