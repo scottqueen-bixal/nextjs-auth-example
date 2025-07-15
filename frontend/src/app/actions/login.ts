@@ -24,6 +24,7 @@ export async function login(state: LoginFormState, formData: FormData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-API-Key': process.env.API_KEY || '',
       },
       body: JSON.stringify({
         email: validatedFields.data.email,
