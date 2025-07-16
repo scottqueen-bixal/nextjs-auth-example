@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { FormInput } from "@/components/ui/form-input"
+import { PasswordInput } from "@/components/ui/password-input"
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined)
@@ -53,10 +54,9 @@ export default function LoginForm() {
                 />
               </div>
               <div className="grid gap-2">
-                <FormInput
+                <PasswordInput
                   id="password"
                   name="password"
-                  type="password"
                   label="Password"
                   placeholder="Password"
                   defaultValue={state?.formData?.password as string || ''}
