@@ -1,3 +1,5 @@
+'use server'
+
 import { SignupFormSchema, SignupFormState } from '@/app/lib/definitions'
 
 export async function signup(state: SignupFormState, formData: FormData) {
@@ -25,7 +27,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
   // Call the provider or db to create a user...
   try {
     // Send plain password to backend - hashing will be done on the server
-    const response = await fetch('http://localhost:8000/users', {
+    const response = await fetch(`${process.env.API_URL || 'http://api:8000'}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
