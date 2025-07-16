@@ -1,4 +1,7 @@
+'use server'
+
 import { LoginFormSchema, LoginFormState } from '@/app/lib/definitions'
+import { createSession } from '@/app/lib/session'
 
 export async function login(state: LoginFormState, formData: FormData) {
   // Validate form fields
@@ -20,7 +23,7 @@ export async function login(state: LoginFormState, formData: FormData) {
 
   // Call the API to authenticate user
   try {
-    const response = await fetch('http://localhost:8000/user-auth', {
+    const response = await fetch(`${process.env.API_URL || 'http://api:8000'}/user-auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,13 +47,21 @@ export async function login(state: LoginFormState, formData: FormData) {
       }
     }
 
-    // Authentication successful - store token and redirect
-    // You might want to store the token in cookies or session storage
-    // For now, we'll return success with the token
+    // Authentication successful - create session and return success
+    if (data.session && data.sessionExpires) {
+      await createSession(data.session, new Date(data.sessionExpires))
+      return {
+        successMessage: 'Login successful, redirecting to dashboard...'
+      }
+    }
+
+    // Fallback if no session data
     return {
-      successMessage: "Login successful!",
-      token: data.token,
-      user: data.user
+      message: 'Authentication successful but no session created',
+      formData: {
+        email: formData.get('email'),
+        password: formData.get('password'),
+      }
     }
 
   } catch (error) {
@@ -63,5 +74,4 @@ export async function login(state: LoginFormState, formData: FormData) {
       }
     }
   }
-
 }
