@@ -1,9 +1,9 @@
 "use client"
 
 import Link from 'next/link'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { login } from "@/app/actions/login"
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -15,11 +15,28 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { FormInput } from "@/components/ui/form-input"
-// import { toast } from "sonner"
+import { toast } from "sonner"
 
 
-export default function Login() {
+export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined)
+  const router = useRouter()
+
+  // Handle success message and redirect
+  useEffect(() => {
+    if (state?.successMessage) {
+      toast.success(state.successMessage, {
+        duration: 1500,
+      })
+
+      // Redirect to dashboard after 1.5 seconds
+      const redirectTimer = setTimeout(() => {
+        router.push('/dashboard')
+      }, 1500)
+
+      return () => clearTimeout(redirectTimer)
+    }
+  }, [state?.successMessage, router])
 
   return (
     <form action={action}>
@@ -31,6 +48,16 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {state?.message && (
+            <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              {state.message}
+            </div>
+          )}
+          {state?.successMessage && (
+            <div className="mb-4 p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+              {state.successMessage}
+            </div>
+          )}
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <FormInput
