@@ -2,6 +2,7 @@
 
 import { LoginFormSchema, LoginFormState } from '@/app/lib/definitions'
 import { createSession } from '@/app/lib/session'
+import { redirect } from 'next/navigation'
 
 export async function login(state: LoginFormState, formData: FormData) {
   // Validate form fields
@@ -73,5 +74,9 @@ export async function login(state: LoginFormState, formData: FormData) {
         password: formData.get('password'),
       }
     }
+  } finally {
+    // Redirect the user to the dashboard - this will only execute
+    // if we successfully authenticated and created a session
+    redirect('/dashboard')
   }
 }
