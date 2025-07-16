@@ -18,7 +18,7 @@ import { FormInput } from "@/components/ui/form-input"
 import { toast } from "sonner"
 
 
-export default function Signup() {
+export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
   const router = useRouter()
 
