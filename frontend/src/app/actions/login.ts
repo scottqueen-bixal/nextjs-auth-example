@@ -40,7 +40,7 @@ export async function login(state: LoginFormState, formData: FormData) {
 
     if (!response.ok) {
       return {
-        message: data.error || 'Authentication failed',
+        message: data.error || 'Authentication failed. Please try again.',
         formData: {
           email: formData.get('email'),
           password: formData.get('password'),
@@ -68,7 +68,7 @@ export async function login(state: LoginFormState, formData: FormData) {
   } catch (error) {
     console.error('Login error:', error)
     return {
-      message: 'Network error. Please try again.',
+      message: 'Unable to connect to the server. Please check your connection and try again.',
       formData: {
         email: formData.get('email'),
         password: formData.get('password'),
