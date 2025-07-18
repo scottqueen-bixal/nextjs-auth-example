@@ -15,12 +15,18 @@ import {
 } from "@/components/ui/card"
 import { FormInput } from "@/components/ui/form-input"
 import { PasswordInput } from "@/components/ui/password-input"
-import { SignupFormSchema } from "@/app/lib/definitions"
+import {
+  SignupFormSchema,
+  validatePasswordRequirements,
+  filterPasswordErrors,
+  isPasswordValid,
+  type PasswordRequirement
+} from "@/app/lib/definitions"
 
 export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
   const [clearedErrors, setClearedErrors] = useState<Set<string>>(new Set())
-  const [passwordRequirementsMet, setPasswordRequirementsMet] = useState<Set<string>>(new Set())
+  const [passwordRequirementsMet, setPasswordRequirementsMet] = useState<Set<PasswordRequirement>>(new Set())
 
   // Reset cleared errors when form is submitted (new state received)
   useEffect(() => {
@@ -30,46 +36,15 @@ export default function SignupForm() {
     }
   }, [state])
 
-  const validatePasswordRequirements = (password: string) => {
-    const requirements = {
-      length: password.length >= 8,
-      letter: /[a-zA-Z]/.test(password),
-      number: /[0-9]/.test(password),
-      special: /[^a-zA-Z0-9]/.test(password)
-    }
-
-    const metRequirements = new Set<string>()
-    if (requirements.length) metRequirements.add('length')
-    if (requirements.letter) metRequirements.add('letter')
-    if (requirements.number) metRequirements.add('number')
-    if (requirements.special) metRequirements.add('special')
-
-    return metRequirements
-  }
-
-  const filterPasswordErrors = (originalErrors: string[]) => {
-    const errorMap = {
-      'Be at least 8 characters long': 'length',
-      'Contain at least one letter.': 'letter',
-      'Contain at least one number.': 'number',
-      'Contain at least one special character.': 'special'
-    }
-
-    return originalErrors.filter(error => {
-      const requirement = errorMap[error as keyof typeof errorMap]
-      return requirement ? !passwordRequirementsMet.has(requirement) : true
-    })
-  }
-
   const handleInputChange = (fieldName: string, value: string) => {
     if (state?.errors?.[fieldName as keyof typeof state.errors]) {
       if (fieldName === 'password') {
-        // Handle password validation specially
+        // Handle password validation using centralized validation utilities from definitions
         const metRequirements = validatePasswordRequirements(value)
         setPasswordRequirementsMet(metRequirements)
 
         // Clear password error only if all requirements are met
-        if (metRequirements.size === 4) {
+        if (isPasswordValid(value)) {
           setClearedErrors(prev => new Set(prev).add(fieldName))
         } else {
           setClearedErrors(prev => {
@@ -118,7 +93,8 @@ export default function SignupForm() {
 
     const originalError = state?.errors?.[fieldName as keyof typeof state.errors]
     if (fieldName === 'password' && originalError && Array.isArray(originalError)) {
-      const filteredErrors = filterPasswordErrors(originalError)
+      // Use centralized password error filtering from definitions
+      const filteredErrors = filterPasswordErrors(originalError, passwordRequirementsMet)
       return filteredErrors.length > 0 ? filteredErrors : undefined
     }
 
