@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { login } from "@/app/actions/login"
-import { useActionState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -15,9 +15,48 @@ import {
 } from "@/components/ui/card"
 import { FormInput } from "@/components/ui/form-input"
 import { PasswordInput } from "@/components/ui/password-input"
+import { LoginFormSchema } from "@/app/lib/definitions"
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined)
+  const [clearedErrors, setClearedErrors] = useState<Set<string>>(new Set())
+
+  // Reset cleared errors when form is submitted (new state received)
+  useEffect(() => {
+    if (state?.errors) {
+      setClearedErrors(new Set())
+    }
+  }, [state])
+
+  const handleInputChange = (fieldName: string, value: string) => {
+    if (state?.errors?.[fieldName as keyof typeof state.errors]) {
+      const fieldSchema = LoginFormSchema.shape[fieldName as keyof typeof LoginFormSchema.shape]
+      const result = fieldSchema.safeParse(value)
+
+      if (result.success) {
+        setClearedErrors(prev => new Set(prev).add(fieldName))
+      } else {
+        setClearedErrors(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(fieldName)
+          return newSet
+        })
+      }
+    }
+  }
+
+  const getFieldError = (fieldName: string) => {
+    if (clearedErrors.has(fieldName)) {
+      return undefined
+    }
+
+    return state?.errors?.[fieldName as keyof typeof state.errors]
+  }
+
+  const hasFieldError = (fieldName: string) => {
+    const error = getFieldError(fieldName)
+    return error && error.length > 0
+  }
 
   return (
     <form action={action}>
@@ -34,11 +73,6 @@ export default function LoginForm() {
               {state.message}
             </div>
           )}
-          {state?.successMessage && (
-            <div className="mb-4 p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
-              {state.successMessage}
-            </div>
-          )}
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <FormInput
@@ -48,8 +82,9 @@ export default function LoginForm() {
                   label="Email"
                   placeholder="me@example.com"
                   defaultValue={state?.formData?.email as string || ''}
-                  aria-invalid={state?.errors?.email ? "true" : "false"}
-                  error={state?.errors?.email}
+                  aria-invalid={hasFieldError('email') ? "true" : "false"}
+                  error={getFieldError('email')}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
                   required
                 />
               </div>
@@ -60,8 +95,9 @@ export default function LoginForm() {
                   label="Password"
                   placeholder="Password"
                   defaultValue={state?.formData?.password as string || ''}
-                  aria-invalid={state?.errors?.password ? "true" : "false"}
-                  error={state?.errors?.password}
+                  aria-invalid={hasFieldError('password') ? "true" : "false"}
+                  error={getFieldError('password')}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
                   showRequirements={false}
                   required
                 />

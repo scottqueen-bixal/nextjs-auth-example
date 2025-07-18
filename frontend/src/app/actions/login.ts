@@ -39,29 +39,53 @@ export async function login(state: LoginFormState, formData: FormData) {
     const data = await response.json()
 
     if (!response.ok) {
-      return {
-        message: data.error || 'Authentication failed. Please try again.',
-        formData: {
-          email: formData.get('email'),
-          password: formData.get('password'),
+      // Map API errors to field-specific errors for better UX
+      if (response.status === 404) {
+        // "User not found" - associate with email field
+        return {
+          errors: {
+            email: ['User not found']
+          },
+          formData: {
+            email: formData.get('email'),
+            password: formData.get('password'),
+          }
+        }
+      } else if (response.status === 401) {
+        // "Invalid password" - associate with password field
+        return {
+          errors: {
+            password: ['Invalid password']
+          },
+          formData: {
+            email: formData.get('email'),
+            password: formData.get('password'),
+          }
+        }
+      } else {
+        // For other errors (500, etc.), show as general message
+        return {
+          message: data.error || 'Authentication failed. Please try again.',
+          formData: {
+            email: formData.get('email'),
+            password: formData.get('password'),
+          }
         }
       }
     }
 
-    // Authentication successful - create session and return success
+    // Authentication successful - create session
     if (data.session && data.sessionExpires) {
       await createSession(data.session, new Date(data.sessionExpires))
+      // Redirect will be handled outside try-catch to avoid NEXT_REDIRECT error logging
+    } else {
+      // Fallback if no session data
       return {
-        successMessage: 'Login successful, redirecting to dashboard...'
-      }
-    }
-
-    // Fallback if no session data
-    return {
-      message: 'Authentication successful but no session created',
-      formData: {
-        email: formData.get('email'),
-        password: formData.get('password'),
+        message: 'Authentication successful but no session created',
+        formData: {
+          email: formData.get('email'),
+          password: formData.get('password'),
+        }
       }
     }
 
@@ -74,9 +98,8 @@ export async function login(state: LoginFormState, formData: FormData) {
         password: formData.get('password'),
       }
     }
-  } finally {
-    // Redirect the user to the dashboard - this will only execute
-    // if we successfully authenticated and created a session
-    redirect('/dashboard')
   }
+
+  // Redirect after successful authentication (outside try-catch)
+  redirect('/dashboard')
 }
