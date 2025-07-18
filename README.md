@@ -95,6 +95,8 @@ nextjs-auth-example/
 
 Recommended model: `Claude Sonnet 4`
 
+#### Prompt
+
 > Follow the Quick Start guide to get the application running with Docker. Be sure to set up the environment variables as described in `ENV_VARIABLES.md`.
 
 1. **Clone the repository with submodules**:
