@@ -91,6 +91,12 @@ nextjs-auth-example/
 
 ## Quick Start
 
+### Agentic Start
+
+Recommended model: `Claude Sonnet 4`
+
+> Follow the Quick Start guide to get the application running with Docker. Be sure to set up the environment variables as described in `ENV_VARIABLES.md`.
+
 1. **Clone the repository with submodules**:
    ```bash
    git clone --recursive <repository-url>
@@ -125,7 +131,7 @@ nextjs-auth-example/
    ```bash
    # Run the authentication test script
    ./test-login.sh
-   
+
    # Or test manually:
    # 1. Visit http://localhost:3000
    # 2. Click "Sign Up" to create a new account
@@ -329,7 +335,7 @@ docker-compose exec db psql -U postgres -d nodeapi -c "SELECT id, user_id, expir
 ### Code Changes and Hot Reload
 
 - **Frontend**: Changes to files in `./frontend/src/` will trigger hot reload
-- **API**: Changes to files in `./api/src/` will trigger nodemon restart  
+- **API**: Changes to files in `./api/src/` will trigger nodemon restart
 - **Database**: Schema changes require running migrations
 
 ## Environment Variables
@@ -421,10 +427,10 @@ For production deployment, ensure you:
    ```bash
    # Check API key configuration
    docker-compose exec api printenv | grep API_KEY
-   
+
    # Verify JWT and session secrets
    docker-compose exec api printenv | grep -E "(JWT_SECRET|SESSION_SECRET)"
-   
+
    # Check database connectivity
    docker-compose exec api npm run migrate
    ```
@@ -433,7 +439,7 @@ For production deployment, ensure you:
    ```bash
    # Check session table in database
    docker-compose exec db psql -U postgres -d nodeapi -c "SELECT * FROM sessions;"
-   
+
    # Check cookie settings in browser developer tools
    # Verify CORS configuration
    docker-compose exec api printenv | grep ALLOWED_ORIGINS
@@ -443,7 +449,7 @@ For production deployment, ensure you:
    ```bash
    # Check API URL configuration
    docker-compose exec frontend printenv | grep API_URL
-   
+
    # Verify API service is running
    curl -H "X-API-Key: dev-api-key-12345-change-in-production" http://localhost:8000/health
    ```
@@ -538,10 +544,10 @@ docker network inspect nextjs-auth-example_default
    ```bash
    # Generate secure API key (32+ characters)
    API_KEY=$(openssl rand -base64 32)
-   
+
    # Generate secure JWT secret (64+ characters)
    JWT_SECRET=$(openssl rand -base64 64)
-   
+
    # Generate secure session secret (64+ characters)
    SESSION_SECRET=$(openssl rand -base64 64)
    ```
