@@ -17,43 +17,36 @@ import { FormInput } from "@/components/ui/form-input"
 import { PasswordInput } from "@/components/ui/password-input"
 import {
   SignupFormSchema,
-  validatePasswordRequirements,
-  filterPasswordErrors,
-  isPasswordValid,
   type PasswordRequirement
 } from "@/app/lib/definitions"
 
 export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
   const [clearedErrors, setClearedErrors] = useState<Set<string>>(new Set())
-  const [passwordRequirementsMet, setPasswordRequirementsMet] = useState<Set<PasswordRequirement>>(new Set())
 
   // Reset cleared errors when form is submitted (new state received)
   useEffect(() => {
     if (state?.errors) {
       setClearedErrors(new Set())
-      setPasswordRequirementsMet(new Set())
     }
   }, [state])
 
+  const handlePasswordValidationChange = (metRequirements: Set<PasswordRequirement>, isValid: boolean) => {
+    // Clear password error only if all requirements are met
+    if (isValid) {
+      setClearedErrors(prev => new Set(prev).add('password'))
+    } else {
+      setClearedErrors(prev => {
+        const newSet = new Set(prev)
+        newSet.delete('password')
+        return newSet
+      })
+    }
+  }
+
   const handleInputChange = (fieldName: string, value: string) => {
     if (state?.errors?.[fieldName as keyof typeof state.errors]) {
-      if (fieldName === 'password') {
-        // Handle password validation using centralized validation utilities from definitions
-        const metRequirements = validatePasswordRequirements(value)
-        setPasswordRequirementsMet(metRequirements)
-
-        // Clear password error only if all requirements are met
-        if (isPasswordValid(value)) {
-          setClearedErrors(prev => new Set(prev).add(fieldName))
-        } else {
-          setClearedErrors(prev => {
-            const newSet = new Set(prev)
-            newSet.delete(fieldName)
-            return newSet
-          })
-        }
-      } else if (fieldName === 'email') {
+      if (fieldName === 'email') {
         // For email field, always allow clearing errors when user types
         // This allows them to correct duplicate email errors
         const fieldSchema = SignupFormSchema.shape[fieldName as keyof typeof SignupFormSchema.shape]
@@ -91,14 +84,7 @@ export default function SignupForm() {
       return undefined
     }
 
-    const originalError = state?.errors?.[fieldName as keyof typeof state.errors]
-    if (fieldName === 'password' && originalError && Array.isArray(originalError)) {
-      // Use centralized password error filtering from definitions
-      const filteredErrors = filterPasswordErrors(originalError, passwordRequirementsMet)
-      return filteredErrors.length > 0 ? filteredErrors : undefined
-    }
-
-    return originalError
+    return state?.errors?.[fieldName as keyof typeof state.errors]
   }
 
   return (
@@ -163,8 +149,7 @@ export default function SignupForm() {
                 defaultValue={state?.formData?.password as string || ''}
                 aria-invalid={getFieldError('password') ? "true" : "false"}
                 error={getFieldError('password')}
-                errorListLabel="Password must:"
-                onChange={(e) => handleInputChange('password', e.target.value)}
+                onValidationChange={handlePasswordValidationChange}
                 required
               />
             </div>

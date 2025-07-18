@@ -62,7 +62,7 @@ export default function LoginForm() {
                   defaultValue={state?.formData?.password as string || ''}
                   aria-invalid={state?.errors?.password ? "true" : "false"}
                   error={state?.errors?.password}
-                  errorListLabel="Password must:"
+                  showRequirements={false}
                   required
                 />
               </div>
