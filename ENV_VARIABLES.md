@@ -4,7 +4,7 @@
 This document explains all environment variables used in the application and where they should be configured.
 
 ## Root .env file (for docker-compose)
-Location: `/Users/scott.queen/Projects/nextjs-auth-example/.env`
+Location: `.env`
 
 ```bash
 # Application Environment
@@ -37,7 +37,7 @@ ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
 ```
 
 ## Frontend .env.local
-Location: `/Users/scott.queen/Projects/nextjs-auth-example/frontend/.env.local`
+Location: `/frontend/.env.local`
 
 ```bash
 # API Configuration (for server-side calls from Next.js)
@@ -55,7 +55,7 @@ NODE_ENV=development
 ```
 
 ## API .env
-Location: `/Users/scott.queen/Projects/nextjs-auth-example/api/.env`
+Location: `/api/.env`
 
 ```bash
 # Application Configuration
