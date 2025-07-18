@@ -75,10 +75,7 @@ export async function signup(state: SignupFormState, formData: FormData) {
     await response.json(); // Consume the response
 
     // If we reach here, the API call was successful
-    // Return success message
-    return {
-      successMessage: "User successfully created, redirecting you to the log in page"
-    };
+    // Redirect the user to the login page only on success
   } catch (error) {
     console.error('Signup error:', error);
     return {
@@ -90,9 +87,6 @@ export async function signup(state: SignupFormState, formData: FormData) {
         password: validatedFields.data.password,
       }
     };
-  } finally {
-    // Redirect the user to the login page - this will only execute
-    // if we successfully created the user (no early returns)
-    redirect('/login')
   }
+  redirect('/login')
 }

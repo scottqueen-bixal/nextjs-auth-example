@@ -78,6 +78,21 @@ export default function SignupForm() {
             return newSet
           })
         }
+      } else if (fieldName === 'email') {
+        // For email field, always allow clearing errors when user types
+        // This allows them to correct duplicate email errors
+        const fieldSchema = SignupFormSchema.shape[fieldName as keyof typeof SignupFormSchema.shape]
+        const result = fieldSchema.safeParse(value)
+
+        if (result.success) {
+          setClearedErrors(prev => new Set(prev).add(fieldName))
+        } else {
+          setClearedErrors(prev => {
+            const newSet = new Set(prev)
+            newSet.delete(fieldName)
+            return newSet
+          })
+        }
       } else {
         // Handle other fields normally
         const fieldSchema = SignupFormSchema.shape[fieldName as keyof typeof SignupFormSchema.shape]
