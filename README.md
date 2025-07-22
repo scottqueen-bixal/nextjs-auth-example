@@ -101,7 +101,7 @@ Recommended model: `Claude Sonnet 4`
 
 1. **Clone the repository with submodules**:
    ```bash
-   git clone --recursive <repository-url>
+   git clone git@github.com:scottqueen-bixal/nextjs-auth-example.git
    cd nextjs-auth-example
    ```
 
@@ -110,12 +110,28 @@ Recommended model: `Claude Sonnet 4`
    git submodule update --init --recursive
    ```
 
-2. **Start all services**:
+2. **Copy environment files**:
+   copy the `.env.example` file to `.env` and update the values as needed.
+   ```bash
+   cp .env.example .env
+   ```
+
+   copy the api/.env.example file to api/.env and update the values as needed.
+   ```bash
+   cp api/.env.example api/.env
+   ```
+
+   copy the frontend/.env.example file to frontend/.env and update the values as needed.
+   ```bash
+   cp frontend/.env.example frontend/.env
+   ```
+
+3. **Start all services**:
    ```bash
    docker-compose up -d
    ```
 
-3. **Wait for services to be ready** (about 30-60 seconds for first startup):
+4. **Wait for services to be ready** (about 30-60 seconds for first startup):
    ```bash
    # Check service status
    docker-compose ps
@@ -124,12 +140,12 @@ Recommended model: `Claude Sonnet 4`
    docker-compose logs -f
    ```
 
-4. **Access the applications**:
+5. **Access the applications**:
    - **Frontend**: http://localhost:3000 (Next.js authentication UI)
    - **API**: http://localhost:8000 (Authentication API endpoints)
    - **Database**: localhost:5432 (PostgreSQL with user and session data)
 
-5. **Test the authentication flow**:
+6. **Test the authentication flow**:
    ```bash
    # Run the authentication test script
    ./test-login.sh
