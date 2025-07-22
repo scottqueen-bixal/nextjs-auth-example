@@ -146,16 +146,17 @@ Recommended model: `Claude Sonnet 4`
    - **Database**: localhost:5432 (PostgreSQL with user and session data)
 
 6. **Test the authentication flow**:
-   ```bash
-   # Run the authentication test script
-   ./test-login.sh
 
-   # Or test manually:
-   # 1. Visit http://localhost:3000
-   # 2. Click "Sign Up" to create a new account
-   # 3. Login with your credentials
-   # 4. Access the protected dashboard
+   # Run the authentication test script
+   ```bash
+   sh ./test-login.sh
    ```
+
+   Or test manually:
+   1. Visit http://localhost:3000
+   2. Click "Sign Up" to create a new account
+   3. Login with your credentials
+   4. Access the protected dashboard
 
 ## Authentication Flow
 
