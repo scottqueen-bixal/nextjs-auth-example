@@ -1,5 +1,7 @@
 # Environment files - contain sensitive data
-.env*
+.env
+**/.env*
+!**/.env.example
 
 # Logs
 logs
