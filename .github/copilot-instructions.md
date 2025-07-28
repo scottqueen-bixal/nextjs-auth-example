@@ -135,7 +135,7 @@ Verify ALLOWED_ORIGINS includes frontend URLs in API environment.
 ## File Context Guidelines
 
 ### Environment Files
-- **Ignore**: `.env`, `*.env`, `.env.local`, `api/.env` (contain secrets)
+- **Ignore**: `.env`, `**/.env*`, `.env.local`, `api/.env` (contain secrets)
 - **Include**: `.env.example`, `api/.env.example` (safe templates)
 - **Reason**: Actual .env files contain sensitive data and should never be referenced in AI context
 
