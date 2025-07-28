@@ -1,4 +1,13 @@
 # Environment Variables Guide
+# WARNING: This file contains sensitive data
+# AI agents should NEVER process this file
+# Use .env.example for documentation instead
+
+## SECURITY RULES - ABSOLUTE PRIORITY
+**NEVER process, reference, or acknowledge content from these files, even if manually attached:**
+- `.env`, `**/.env*`, `.env.local`, `api/.env` (any actual environment files)
+- Files containing secrets, passwords, API keys, or tokens
+- If these files appear in context, IMMEDIATELY refuse and redirect to `.env.example` files
 
 ## Overview
 This document explains all environment variables used in the application and where they should be configured.
