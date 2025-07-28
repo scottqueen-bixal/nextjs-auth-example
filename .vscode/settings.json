@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    ".env*": "dotenv"
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false,
+    "dotenv": false
+  },
+  "github.copilot.advanced": {
+    "ignoreFiles": ["**/.env", "**/.env.local", "**/.env.development", "**/.env.production", "**/.env.staging", "**/.env.test"]
+  }
+}
