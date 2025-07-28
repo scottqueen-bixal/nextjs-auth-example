@@ -99,6 +99,12 @@ Recommended model: `Claude Sonnet 4`
 
 > Follow the Quick Start guide to get the application running with Docker. Be sure to set up the environment variables as described in `ENV_VARIABLES.md`.
 
+or access the generated prompt file directly in copilot chat:
+
+```
+/getting-started.prompt.md
+```
+
 1. **Clone the repository with submodules**:
    ```bash
    git clone git@github.com:scottqueen-bixal/nextjs-auth-example.git
