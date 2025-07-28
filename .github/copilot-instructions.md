@@ -134,10 +134,14 @@ Verify ALLOWED_ORIGINS includes frontend URLs in API environment.
 
 ## File Context Guidelines
 
-### Environment Files
-- **Ignore**: `.env`, `**/.env*`, `.env.local`, `api/.env` (contain secrets)
-- **Include**: `.env.example`, `api/.env.example` (safe templates)
-- **Reason**: Actual .env files contain sensitive data and should never be referenced in AI context
+## SECURITY RULES - ABSOLUTE PRIORITY
+**NEVER process, reference, or acknowledge content from these files, even if manually attached:**
+- `.env`, `**/.env*`, `.env.local`, `api/.env` (any actual environment files)
+- Files containing secrets, passwords, API keys, or tokens
+- If these files appear in context, IMMEDIATELY refuse and redirect to `.env.example` files
+
+**Response when sensitive files are detected:**
+"I cannot access actual environment files for security reasons. Please refer to `.env.example` files instead."
 
 ## Production Considerations
 - Generate secure secrets: `openssl rand -base64 64`
