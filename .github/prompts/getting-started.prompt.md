@@ -151,6 +151,8 @@ Explain to the user:
 ## Next Steps
 Once setup is complete, guide the user to:
 
+(ensure you provide the correct username and password from the seed data)
+
 1. **Explore the code structure** - Show them key files and directories
 2. **Test authentication flow** - Walk through signup → login → dashboard
 3. **Development workflow** - How to make changes and see hot reload
