@@ -22,10 +22,6 @@ If any prerequisites are missing, provide installation instructions for their op
 
 ### Step 1: Repository Setup
 ```bash
-# Clone the repository with submodules (CRITICAL - the API is a git submodule)
-git clone git@github.com:scottqueen-bixal/nextjs-auth-example.git
-cd nextjs-auth-example
-
 # If already cloned without submodules, run:
 git submodule update --init --recursive
 ```
@@ -95,7 +91,7 @@ docker-compose exec api npm run seed
 Help the user verify everything is working:
 
 - [ ] All Docker containers are running (`docker-compose ps`)
-- [ ] Frontend loads at http://localhost:3000
+- [ ] Frontend loads at http://localhost:3000 (open window in IDE)
 - [ ] API responds at http://localhost:8000
 - [ ] Database contains users and sessions tables
 - [ ] Authentication test script passes
