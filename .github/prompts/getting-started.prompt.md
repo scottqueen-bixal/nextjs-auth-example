@@ -31,6 +31,8 @@ git submodule update --init --recursive
 ### Step 2: Environment Configuration
 Set up the three required environment files:
 
+context: `ENV_VARIABLES.md`
+
 1. **Root environment file**:
 ```bash
 cp .env.example .env
