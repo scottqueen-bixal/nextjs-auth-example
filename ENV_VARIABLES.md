@@ -15,81 +15,12 @@ This document explains all environment variables used in the application and whe
 ## Root .env file (for docker-compose)
 Location: `.env`
 
-```bash
-# Application Environment
-NODE_ENV=development
-
-# Database Configuration
-POSTGRES_DB=nodeapi
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password
-DB_HOST=db
-DB_PORT=5432
-DB_NAME=nodeapi
-DB_USER=postgres
-DB_PASSWORD=password
-
-# API Configuration
-API_PORT=8000
-API_KEY=dev-api-key-12345-change-in-production
-JWT_SECRET=your-jwt-secret-key-change-in-production
-SESSION_SECRET=your-session-secret-key-change-in-production
-
-# Frontend Configuration
-FRONTEND_PORT=3000
-API_URL=http://api:8000
-NEXT_PUBLIC_API_URL=http://localhost:8000
-
-# CORS Configuration
-FRONTEND_URL=http://localhost:3000
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
-```
-
 ## Frontend .env.local
 Location: `/frontend/.env.local`
-
-```bash
-# API Configuration (for server-side calls from Next.js)
-API_URL=http://api:8000
-API_KEY=dev-api-key-12345-change-in-production
-
-# Public API Configuration (for client-side calls)
-NEXT_PUBLIC_API_URL=http://localhost:8000
-
-# Authentication Configuration
-NEXTAUTH_SECRET=your-nextauth-secret-here
-
-# Environment
-NODE_ENV=development
-```
 
 ## API .env
 Location: `/api/.env`
 
-```bash
-# Application Configuration
-NODE_ENV=development
-PORT=8000
-
-# API Security Configuration
-API_KEY=dev-api-key-12345-change-in-production
-JWT_SECRET=your-jwt-secret-key-change-in-production
-SESSION_SECRET=your-session-secret-key-change-in-production
-
-# Database Configuration
-DB_HOST=db
-DB_PORT=5432
-DB_NAME=nodeapi
-DB_USER=postgres
-DB_PASSWORD=password
-
-# CORS Configuration
-FRONTEND_URL=http://localhost:3000
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
-
-# Domain Configuration
-DOMAIN=localhost
-```
 
 ## Usage in Code
 
