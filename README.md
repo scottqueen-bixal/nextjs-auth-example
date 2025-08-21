@@ -102,16 +102,10 @@ Recommended model: `Claude Sonnet 4`
 or access the generated prompt file directly in copilot chat:
 
 ```
-/getting-started.prompt.md
+/getting-started
 ```
 
-1. **Clone the repository with submodules**:
-   ```bash
-   git clone git@github.com:scottqueen-bixal/nextjs-auth-example.git
-   cd nextjs-auth-example
-   ```
-
-   If you already cloned without submodules:
+1. **Update the repository with submodules**:
    ```bash
    git submodule update --init --recursive
    ```
