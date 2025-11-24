@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 ---
 
 # Next.js Authentication System - First Time Setup
