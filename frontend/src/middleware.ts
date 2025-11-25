@@ -4,8 +4,6 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('session')
   const hasSession = !!sessionCookie?.value
   
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || 
-                    request.nextUrl.pathname.startsWith('/signup')
   const isProtectedPage = request.nextUrl.pathname.startsWith('/dashboard')
 
   // For protected pages, redirect to login if no session cookie
