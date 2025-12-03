@@ -5,15 +5,16 @@ A complete full-stack authentication and user management system built with Next.
 ## Features
 
 ### Authentication & Security
+
 - **Session-Based Authentication** - Secure server-side session management
 - **Password Hashing** - Bcrypt-style password hashing with salt
 - **JWT Token Support** - JSON Web Token generation and verification
 - **API Key Authentication** - Secure API key validation middleware
 - **Session Encryption** - Encrypted session data for client-side storage
-- **CSRF Protection** - Cross-site request forgery protection
-- **HTTPS Enforcement** - Secure cookies and headers in production
+- **CORS Enforcement** - Origin allow-list controlled via `ALLOWED_ORIGINS`
 
 ### User Management
+
 - **User Registration** - New user creation with validation
 - **User Login/Logout** - Complete authentication flow
 - **Session Verification** - Real-time session validation
@@ -22,6 +23,7 @@ A complete full-stack authentication and user management system built with Next.
 - **User Profile Management** - Full CRUD operations for user data
 
 ### Frontend (Next.js)
+
 - **App Router** - Modern Next.js 15 App Router architecture
 - **Server Actions** - Server-side form handling and actions
 - **Middleware** - Route protection and authentication middleware
@@ -30,6 +32,7 @@ A complete full-stack authentication and user management system built with Next.
 - **Server Components** - Optimized server-side rendering
 
 ### Backend (Node.js API)
+
 - **RESTful API** - Clean REST API design
 - **Microservice Architecture** - Standalone authentication service
 - **PostgreSQL Database** - Robust relational database with ACID compliance
@@ -68,19 +71,20 @@ nextjs-auth-example/
 │   ├── Dockerfile         # API container definition
 │   └── package.json       # API dependencies
 └── frontend/              # Next.js Frontend Application
-    ├── src/              # Frontend source code
-    │   ├── app/          # Next.js App Router
-    │   │   ├── (auth)/   # Authentication pages (login, signup)
-    │   │   ├── (routes)/ # Protected routes
-    │   │   ├── dashboard/ # Dashboard pages
-    │   │   ├── actions/  # Server Actions
-    │   │   ├── api/      # API routes
-    │   │   └── lib/      # Utility functions and session management
-    │   ├── components/   # React components
-    │   └── middleware.ts # Route protection middleware
-    ├── public/           # Static assets
-    ├── Dockerfile        # Frontend container definition (development)
-    └── package.json      # Frontend dependencies
+   ├── src/              # Frontend source code
+   │   ├── app/          # Next.js App Router
+   │   │   ├── (auth)/   # Authentication routes (login, signup)
+   │   │   ├── (routes)/dashboard/ # Protected dashboard pages
+   │   │   ├── actions/  # Server Actions for auth flows
+   │   │   ├── lib/      # Redirect helpers and schemas
+   │   │   ├── globals.css
+   │   │   ├── layout.tsx
+   │   │   └── page.tsx
+   │   ├── components/   # UI components
+   │   └── middleware.ts # Route protection middleware
+   ├── public/           # Static assets
+   ├── Dockerfile        # Frontend container definition (development)
+   └── package.json      # Frontend dependencies
 ```
 
 ## Prerequisites
@@ -106,54 +110,64 @@ or access the generated prompt file directly in copilot chat:
 ```
 
 1. **Update the repository with submodules**:
+
    ```bash
    git submodule update --init --recursive
    ```
 
 2. **Copy environment files**:
    copy the `.env.example` file to `.env` and update the values as needed.
+
    ```bash
    cp .env.example .env
    ```
 
    copy the api/.env.example file to api/.env and update the values as needed.
+
    ```bash
    cp api/.env.example api/.env
    ```
 
    copy the frontend/.env.example file to frontend/.env and update the values as needed.
+
    ```bash
    cp frontend/.env.example frontend/.env
    ```
 
 3. **Start all services**:
+
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 4. **Wait for services to be ready** (about 30-60 seconds for first startup):
+
    ```bash
    # Check service status
-   docker-compose ps
+   docker compose ps
 
    # Watch logs
-   docker-compose logs -f
+   docker compose logs -f
    ```
 
 5. **Access the applications**:
-   - **Frontend**: http://localhost:3000 (Next.js authentication UI)
+
+   - **Auth Frontend**: http://localhost:3001 (Next.js authentication UI)
    - **API**: http://localhost:8000 (Authentication API endpoints)
    - **Database**: localhost:5432 (PostgreSQL with user and session data)
 
 6. **Test the authentication flow**:
 
-   # Run the authentication test script
+   # Run the authentication test scripts
+
    ```bash
    sh ./test-login.sh
+   sh ./test-signup.sh
    ```
 
    Or test manually:
-   1. Visit http://localhost:3000
+
+   1. Visit http://localhost:3001
    2. Click "Sign Up" to create a new account
    3. Login with your credentials
    4. Access the protected dashboard
@@ -161,6 +175,7 @@ or access the generated prompt file directly in copilot chat:
 ## Authentication Flow
 
 ### User Registration
+
 1. User visits `/signup` page
 2. Fills out registration form (first name, last name, email, password)
 3. Frontend sends request to API `/users` endpoint
@@ -169,6 +184,7 @@ or access the generated prompt file directly in copilot chat:
 6. User redirected to login page
 
 ### User Login
+
 1. User visits `/login` page
 2. Enters email and password
 3. Frontend sends request to API `/user-auth` endpoint
@@ -179,6 +195,7 @@ or access the generated prompt file directly in copilot chat:
 8. User redirected to dashboard
 
 ### Session Verification
+
 1. User accesses protected route
 2. Next.js middleware checks for session cookie
 3. Frontend calls API `/user-auth/verify-session` endpoint
@@ -187,6 +204,7 @@ or access the generated prompt file directly in copilot chat:
 6. Session automatically renewed on activity
 
 ### User Logout
+
 1. User clicks logout button
 2. Frontend calls API `/user-auth/logout` endpoint
 3. API invalidates session in database
@@ -196,6 +214,7 @@ or access the generated prompt file directly in copilot chat:
 ## Services Overview
 
 ### Database Service (PostgreSQL)
+
 - **Image**: postgres:15-alpine
 - **Port**: 5432
 - **Database**: nodeapi
@@ -207,6 +226,7 @@ or access the generated prompt file directly in copilot chat:
   - Health checks and automatic restart
 
 ### API Service (Node.js Authentication Microservice)
+
 - **Built from**: `./api/Dockerfile`
 - **Port**: 8000
 - **Environment**: Development mode with hot reload
@@ -220,8 +240,9 @@ or access the generated prompt file directly in copilot chat:
   - Comprehensive error handling and logging
 
 ### Frontend Service (Next.js)
+
 - **Built from**: `./frontend/Dockerfile`
-- **Port**: 3000
+- **Port**: 3001 (configurable via `FRONTEND_PORT`)
 - **Environment**: Development mode with hot reload
 - **Features**:
   - Modern Next.js 15 App Router architecture
@@ -239,46 +260,46 @@ or access the generated prompt file directly in copilot chat:
 
 ```bash
 # Start all services in detached mode
-docker-compose up -d
+docker compose up -d
 
 # Or start with logs visible
-docker-compose up
+docker compose up
 
 # Start specific services
-docker-compose up -d db api    # Database and API only
-docker-compose up -d frontend  # Frontend only
+docker compose up -d db api    # Database and API only
+docker compose up -d frontend  # Frontend only
 ```
 
 ### Viewing Logs
 
 ```bash
 # View all service logs
-docker-compose logs -f
+docker compose logs -f
 
 # View specific service logs
-docker-compose logs -f api
-docker-compose logs -f frontend
-docker-compose logs -f db
+docker compose logs -f api
+docker compose logs -f frontend
+docker compose logs -f db
 ```
 
 ### Development Commands
 
 ```bash
 # Check service status
-docker-compose ps
+docker compose ps
 
 # Restart a service
-docker-compose restart frontend
+docker compose restart frontend
 
 # Rebuild a service
-docker-compose build frontend
-docker-compose up -d frontend
+docker compose build frontend
+docker compose up -d frontend
 
 # Stop all services
-docker-compose down
+docker compose down
 
 # Stop and remove volumes (⚠️ deletes database data)
-docker-compose down -v
+docker compose down -v
 ```
 
 ### Authentication Testing
@@ -330,25 +351,25 @@ curl -X POST http://localhost:8000/user-auth/logout \
 
 ```bash
 # Run database migrations
-docker-compose exec api npm run migrate
+docker compose exec api npm run migrate
 
 # Seed the database with sample data
-docker-compose exec api npm run seed
+docker compose exec api npm run seed
 
 # Reset database (migrate + seed)
-docker-compose exec api npm run db:reset
+docker compose exec api npm run db:reset
 
 # Access PostgreSQL directly
-docker-compose exec db psql -U postgres -d nodeapi
+docker compose exec db psql -U postgres -d nodeapi
 
 # Check database tables
-docker-compose exec db psql -U postgres -d nodeapi -c "\dt"
+docker compose exec db psql -U postgres -d nodeapi -c "\dt"
 
 # View users table
-docker-compose exec db psql -U postgres -d nodeapi -c "SELECT id, email, first_name, last_name, created_at FROM users;"
+docker compose exec db psql -U postgres -d nodeapi -c "SELECT id, email, first_name, last_name, created_at FROM users;"
 
 # View active sessions
-docker-compose exec db psql -U postgres -d nodeapi -c "SELECT id, user_id, expires_at, created_at FROM sessions WHERE expires_at > NOW();"
+docker compose exec db psql -U postgres -d nodeapi -c "SELECT id, user_id, expires_at, created_at FROM sessions WHERE expires_at > NOW();"
 ```
 
 ### Code Changes and Hot Reload
@@ -362,35 +383,19 @@ docker-compose exec db psql -U postgres -d nodeapi -c "SELECT id, user_id, expir
 The application uses environment variables for configuration. See `ENV_VARIABLES.md` for complete documentation.
 
 ### Core Configuration
-```bash
-# Application Environment
-NODE_ENV=development
 
-# Database Configuration
-POSTGRES_DB=nodeapi
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password
-DB_HOST=db
-DB_PORT=5432
-DB_NAME=nodeapi
-DB_USER=postgres
-DB_PASSWORD=password
+`ENV_VARIABLES.md` documents every variable, default, and consumer. Common defaults you will encounter in local development:
 
-# Authentication Configuration
-API_KEY=dev-api-key-12345-change-in-production
-JWT_SECRET=your-jwt-secret-key-change-in-production
-SESSION_SECRET=your-session-secret-key-change-in-production
-
-# Frontend Configuration
-NEXT_PUBLIC_API_URL=http://localhost:8000
-API_URL=http://api:8000
-FRONTEND_URL=http://localhost:3000
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
-```
+- `AUTH_FRONTEND_URL=http://localhost:3001` and `FRONTEND_URL=http://localhost:3000` control cross-app redirects.
+- `API_PORT=8000`, `FRONTEND_PORT=3001`, and `DOCS_PORT=8001` (optional) expose services from Docker.
+- Database credentials: `DB_HOST=db`, `DB_PORT=5432`, `DB_NAME=nodejs_app`, `DB_USER=postgres`, `DB_PASSWORD=postgres` (replace in production). The Postgres container also respects the matching `POSTGRES_*` variables.
+- Secrets: `API_KEY`, `JWT_SECRET`, and `SESSION_SECRET` must be aligned across the auth API and frontend; never use the development defaults outside local environments.
+- CORS and client URLs: `ALLOWED_ORIGINS` defaults to `http://localhost:3000,http://localhost:3001`; `API_URL` and `NEXT_PUBLIC_API_URL` default to the API origin for server/client requests.
 
 ### Security Configuration
 
 For production deployment, ensure you:
+
 1. Change all default passwords and secrets
 2. Use strong, randomly generated API keys and secrets
 3. Configure proper CORS origins
@@ -400,6 +405,7 @@ For production deployment, ensure you:
 ## System Features
 
 ### Authentication System
+
 - **Secure Password Storage** - Passwords hashed with salt using Node.js crypto
 - **Session Management** - Database-backed sessions with automatic expiration
 - **JWT Token Support** - Stateless authentication for API clients
@@ -408,14 +414,16 @@ For production deployment, ensure you:
 - **Automatic Cleanup** - Expired sessions automatically removed from database
 
 ### Security Features
+
 - **API Key Authentication** - All API endpoints protected with API keys
-- **CSRF Protection** - Cross-site request forgery protection
+- **CORS Allow List** - Origin restrictions managed via `ALLOWED_ORIGINS`
 - **HTTP-Only Cookies** - Session cookies inaccessible to JavaScript
 - **Secure Headers** - Security headers configured for production
 - **Input Validation** - Comprehensive input validation and sanitization
 - **Rate Limiting** - Protection against brute force attacks
 
 ### Frontend Features
+
 - **Modern UI** - Clean, responsive design with Tailwind CSS
 - **TypeScript** - Full type safety throughout the application
 - **Server Components** - Optimized server-side rendering
@@ -424,6 +432,7 @@ For production deployment, ensure you:
 - **Error Handling** - Comprehensive error handling with user feedback
 
 ### API Features
+
 - **RESTful Design** - Clean, intuitive API endpoints
 - **Microservice Architecture** - Standalone authentication service
 - **Database Migrations** - Version-controlled database schema
@@ -432,6 +441,7 @@ For production deployment, ensure you:
 - **API Documentation** - Auto-generated JSDoc documentation
 
 ### Development Features
+
 - **Hot Reload** - Automatic reload on code changes
 - **Docker Support** - Full containerization for consistent development
 - **Database Seeding** - Sample data for development and testing
@@ -443,49 +453,54 @@ For production deployment, ensure you:
 ### Common Issues
 
 1. **Authentication failures**:
+
    ```bash
    # Check API key configuration
-   docker-compose exec api printenv | grep API_KEY
+   docker compose exec api printenv | grep API_KEY
 
    # Verify JWT and session secrets
-   docker-compose exec api printenv | grep -E "(JWT_SECRET|SESSION_SECRET)"
+   docker compose exec api printenv | grep -E "(JWT_SECRET|SESSION_SECRET)"
 
    # Check database connectivity
-   docker-compose exec api npm run migrate
+   docker compose exec api npm run migrate
    ```
 
 2. **Session not persisting**:
+
    ```bash
    # Check session table in database
-   docker-compose exec db psql -U postgres -d nodeapi -c "SELECT * FROM sessions;"
+   docker compose exec db psql -U postgres -d nodeapi -c "SELECT * FROM sessions;"
 
    # Check cookie settings in browser developer tools
    # Verify CORS configuration
-   docker-compose exec api printenv | grep ALLOWED_ORIGINS
+   docker compose exec api printenv | grep ALLOWED_ORIGINS
    ```
 
 3. **Frontend not connecting to API**:
+
    ```bash
    # Check API URL configuration
-   docker-compose exec frontend printenv | grep API_URL
+   docker compose exec frontend printenv | grep API_URL
 
    # Verify API service is running
    curl -H "X-API-Key: dev-api-key-12345-change-in-production" http://localhost:8000/health
    ```
 
 4. **Database connection errors**:
+
    ```bash
    # Check if database is healthy
-   docker-compose exec db pg_isready -U postgres
+   docker compose exec db pg_isready -U postgres
 
    # View database logs
-   docker-compose logs db
+   docker compose logs db
 
    # Restart database service
-   docker-compose restart db
+   docker compose restart db
    ```
 
 5. **Port conflicts**:
+
    ```bash
    # Check if ports are in use
    lsof -i :3000  # Frontend
@@ -496,24 +511,27 @@ For production deployment, ensure you:
    ```
 
 6. **Frontend build errors**:
+
    ```bash
    # Clear Next.js cache
-   docker-compose exec frontend rm -rf .next
+   docker compose exec frontend rm -rf .next
 
    # Rebuild frontend
-   docker-compose build frontend --no-cache
+   docker compose build frontend --no-cache
    ```
 
 7. **API startup issues**:
+
    ```bash
    # Check API logs
-   docker-compose logs api
+   docker compose logs api
 
    # Restart API service
-   docker-compose restart api
+   docker compose restart api
    ```
 
 8. **Submodule issues**:
+
    ```bash
    # Update submodules
    git submodule update --remote
@@ -526,15 +544,15 @@ For production deployment, ensure you:
 
 ```bash
 # Access container shell
-docker-compose exec api sh
-docker-compose exec frontend sh
-docker-compose exec db sh
+docker compose exec api sh
+docker compose exec frontend sh
+docker compose exec db sh
 
 # Check container resources
-docker-compose top
+docker compose top
 
 # View detailed container info
-docker-compose ps --services
+docker compose ps --services
 docker inspect <container_name>
 
 # Check Docker networks
@@ -554,12 +572,14 @@ docker network inspect nextjs-auth-example_default
 ### Environment Setup
 
 1. **Create production environment file**:
+
    ```bash
    cp .env.example .env.production
    # Edit .env.production with production values
    ```
 
 2. **Set secure secrets**:
+
    ```bash
    # Generate secure API key (32+ characters)
    API_KEY=$(openssl rand -base64 32)
@@ -572,6 +592,7 @@ docker network inspect nextjs-auth-example_default
    ```
 
 3. **Configure database**:
+
    ```bash
    # Use production database credentials
    DB_HOST=your-production-db-host
@@ -591,10 +612,10 @@ docker network inspect nextjs-auth-example_default
 
 ```bash
 # Build production images
-docker-compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml build
 
 # Deploy to production
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 
 # Run health checks
 curl https://yourdomain.com/health
@@ -604,7 +625,7 @@ curl https://yourdomain.com/health
 
 ```bash
 # Run migrations on production database
-docker-compose -f docker-compose.prod.yml exec api npm run migrate
+docker compose -f docker-compose.prod.yml exec api npm run migrate
 
 # Do NOT run seeds in production
 # Seeds are for development data only
@@ -629,10 +650,10 @@ docker-compose -f docker-compose.prod.yml exec api npm run migrate
 curl https://yourdomain.com/api/health
 
 # Monitor application logs
-docker-compose -f docker-compose.prod.yml logs -f
+docker compose -f docker-compose.prod.yml logs -f
 
 # Monitor database
-docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d nodeapi -c "SELECT COUNT(*) FROM sessions WHERE expires_at > NOW();"
+docker compose -f docker-compose.prod.yml exec db psql -U postgres -d nodeapi -c "SELECT COUNT(*) FROM sessions WHERE expires_at > NOW();"
 ```
 
 ## Development Setup (Alternative)
@@ -640,6 +661,7 @@ docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d nodeapi -c
 If you prefer to run services locally instead of Docker:
 
 ### Prerequisites
+
 - Node.js 20+
 - PostgreSQL 15+
 - npm or yarn
@@ -647,11 +669,13 @@ If you prefer to run services locally instead of Docker:
 ### Local Development
 
 1. **Start PostgreSQL** (locally or via Docker):
+
    ```bash
    docker run --name postgres -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:15-alpine
    ```
 
 2. **Setup API**:
+
    ```bash
    cd api
    npm install
@@ -687,18 +711,21 @@ npm test  # If tests are available
 ### Manual Testing
 
 1. **User Registration Flow**:
-   - Navigate to http://localhost:3000/signup
+
+   - Navigate to http://localhost:3001/signup
    - Fill out the registration form
    - Verify email validation
    - Check user created in database
 
 2. **Authentication Flow**:
-   - Navigate to http://localhost:3000/login
+
+   - Navigate to http://localhost:3001/login
    - Login with valid credentials
    - Verify redirect to dashboard
    - Check session created in database
 
 3. **Session Management**:
+
    - Access protected routes
    - Verify session validation
    - Test session expiration
@@ -743,6 +770,7 @@ This project is licensed under the ISC License. See the LICENSE file for details
 ## Support
 
 For issues and questions:
+
 - Check the troubleshooting section above
 - Review the technical requirements in `REQUIREMENTS.md`
 - Check environment variable documentation in `ENV_VARIABLES.md`
