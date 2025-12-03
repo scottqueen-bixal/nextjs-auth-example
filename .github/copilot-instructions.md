@@ -9,7 +9,6 @@ This is a **microservice authentication system** with three services orchestrate
 - **Database**: PostgreSQL with session and user persistence
 
 **Critical**: The API is a **git submodule** at `./api/` - changes there require separate commits.
-**Critical**: Use Docker as our services are running in containers
 
 ## Environment & Docker Patterns
 
